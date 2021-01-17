@@ -20,33 +20,24 @@ public class Sign : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (inRange) {
-            //if (dialogBox.activeInHierarchy) {
-                //dialogBox.SetActive(false);
-            //}
-            //else {
-                //dialogText.text = dialog;
-                //dialogBox.SetActive(true);
-            //}
-        //}
+        if (inRange) {
+            if (!dialogBox.activeInHierarchy) {
+                dialogText.text = dialog;
+                dialogBox.SetActive(true);
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        
-        if(other.CompareTag("Player")) {
-            Debug.Log("Player in range");
-            //inRange = true;
-        }
+
+        inRange = true;
 
     }
 
     private void OnTriggerExit2D(Collider2D other) {
-        
-        if(other.CompareTag("Player")) {
-            Debug.Log("Player out of range");
-            //inRange = false;
-            //dialogBox.SetActive(false);
-        }
+
+        inRange = false;
+        dialogBox.SetActive(false);
 
     }
 }
