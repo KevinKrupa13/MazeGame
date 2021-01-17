@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Sign : MonoBehaviour
 {
@@ -19,30 +20,32 @@ public class Sign : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (inRage) {
-            if (dialogBox.activeInHierarchy) {
-                dialogBox.SetActive(false);
-            }
-            else {
-                dialogBox.SetActive(true);
-                dialogText.text = dialog;
-            }
-        }
+        //if (inRange) {
+            //if (dialogBox.activeInHierarchy) {
+                //dialogBox.SetActive(false);
+            //}
+            //else {
+                //dialogText.text = dialog;
+                //dialogBox.SetActive(true);
+            //}
+        //}
     }
 
-    void OnTriggerEnter2D(Collider2D player) {
+    private void OnTriggerEnter2D(Collider2D other) {
         
-        if(player.CompareTag("Player")) {
-            inRange = true;
+        if(other.CompareTag("Player")) {
+            Debug.Log("Player in range");
+            //inRange = true;
         }
 
     }
 
-    private void OnTriggerExit2D(Collider2D player) {
+    private void OnTriggerExit2D(Collider2D other) {
         
-        if(player.CompareTag("Player")) {
-            inRange = false;
-            dialogBox.SetActive(false);
+        if(other.CompareTag("Player")) {
+            Debug.Log("Player out of range");
+            //inRange = false;
+            //dialogBox.SetActive(false);
         }
 
     }
