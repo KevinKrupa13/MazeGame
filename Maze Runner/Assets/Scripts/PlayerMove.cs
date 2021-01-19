@@ -17,6 +17,7 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D myRigidbody;
     private Vector3 change;
     private Animator animator;
+    private GameObject projectile;
 
     // Start is called before the first frame update
     void Start()
