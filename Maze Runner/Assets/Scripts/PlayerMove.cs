@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum PlayerState
 {
@@ -26,14 +27,13 @@ public class PlayerMove : MonoBehaviour
     public PlayerState currentState;
     public float speed;
     public PlayerDirection currentDirection;
-    private Rigidbody2D myRigidbody;
+    public Vector3 finalChange;
     private Vector3 change;
+    private Rigidbody2D myRigidbody;
     private Animator animator;
 
     public GameObject projectile;
     public Transform shotPoint;
-    public float projSpeed;
-    private Rigidbody2D projBody;
     
 
     // Start is called before the first frame update
@@ -41,8 +41,8 @@ public class PlayerMove : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
-        projBody = projectile.GetComponent<Rigidbody2D>();
         currentDirection = PlayerDirection.front;
+        finalChange = new Vector3(0, -1, 0);
     }
 
     // Update is called once per frame
@@ -51,7 +51,6 @@ public class PlayerMove : MonoBehaviour
         change = Vector3.zero;
         change.x = Input.GetAxisRaw("Horizontal");
         change.y = Input.GetAxisRaw("Vertical");
-
         changeDirection();
         
         if (Input.GetButtonDown("attack") && currentState != PlayerState.attack)
@@ -140,8 +139,6 @@ public class PlayerMove : MonoBehaviour
             Instantiate(projectile, shotPoint.position, Quaternion.Euler(0, 0, 90));
         }
 
-        MoveProjectile();
-
         yield return new WaitForSeconds(.5f);
     }
 
@@ -152,18 +149,13 @@ public class PlayerMove : MonoBehaviour
             animator.SetFloat("moveX", change.x);
             animator.SetFloat("moveY", change.y);
             animator.SetBool("moving", true);
+
+            finalChange.x = change.x;
+            finalChange.y = change.y;
         }
         else {
             animator.SetBool("moving", false);
         }
-    }
-
-    private void MoveProjectile() {
-        Vector3 changeP = new Vector3(5, 5, 0);
-        
-        projBody.MovePosition(
-            shotPoint.position + changeP * projSpeed
-        );
     }
 
     private void MoveCharacter()
