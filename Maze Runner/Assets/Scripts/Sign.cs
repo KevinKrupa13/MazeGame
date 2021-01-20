@@ -11,6 +11,7 @@ public class Sign : MonoBehaviour
     public string dialog;
     public bool inRange;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,14 +31,17 @@ public class Sign : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
 
-        inRange = true;
-
+        if (other.gameObject.tag == "Player") {
+            inRange = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other) {
 
-        inRange = false;
-        dialogBox.SetActive(false);
+        if (other.gameObject.tag == "Player") {
+            inRange = false;
+            dialogBox.SetActive(false);
+        }
 
     }
 }

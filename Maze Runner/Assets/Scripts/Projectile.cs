@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
     public float projSpeed;
     private Vector3 change;
     private Rigidbody2D myRigidBody;
+    private bool active;
 
     // Start is called before the first frame update
     private void Start()
@@ -17,6 +18,7 @@ public class Projectile : MonoBehaviour
         PlayerMove playerMove = go.GetComponent<PlayerMove>();
         change = playerMove.finalChange;
 
+        active = true;
         myRigidBody = GetComponent<Rigidbody2D>();
         Invoke("DestroyProjectile", lifeTime);
 
@@ -32,6 +34,18 @@ public class Projectile : MonoBehaviour
     }
 
     void DestroyProjectile() {
-        Destroy(gameObject);
+        if (active == true) {
+            Destroy(gameObject);
+            active = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+
+        if (other.gameObject.tag == "Border" && active == true) {
+            DestroyProjectile();
+            active = false;
+        }
+
     }
 }

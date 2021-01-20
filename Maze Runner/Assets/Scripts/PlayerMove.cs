@@ -51,6 +51,7 @@ public class PlayerMove : MonoBehaviour
         change = Vector3.zero;
         change.x = Input.GetAxisRaw("Horizontal");
         change.y = Input.GetAxisRaw("Vertical");
+
         changeDirection();
         
         if (Input.GetButtonDown("attack") && currentState != PlayerState.attack)
@@ -96,6 +97,12 @@ public class PlayerMove : MonoBehaviour
         else if (change.y == 1) {
             currentDirection = PlayerDirection.back;
         }
+
+        if (change.x != 0 || change.y != 0) {
+            finalChange.x = change.x;
+            finalChange.y = change.y;
+        }
+        
     }
 
     private IEnumerator AttackCo()
@@ -149,9 +156,6 @@ public class PlayerMove : MonoBehaviour
             animator.SetFloat("moveX", change.x);
             animator.SetFloat("moveY", change.y);
             animator.SetBool("moving", true);
-
-            finalChange.x = change.x;
-            finalChange.y = change.y;
         }
         else {
             animator.SetBool("moving", false);
