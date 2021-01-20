@@ -44,6 +44,9 @@ TagManager:
   - name: Signs
     uniqueID: 579243575
     locked: 0
+  - name: Projectiles
+    uniqueID: 2920714769
+    locked: 0
   - name: Player
     uniqueID: 1225275809
     locked: 0

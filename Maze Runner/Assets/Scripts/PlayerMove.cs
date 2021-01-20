@@ -13,7 +13,11 @@ public enum PlayerDirection {
     right,
     left,
     front,
-    back
+    back, 
+    rFront,
+    rBack,
+    lFront,
+    lBack
 }
 
 public class PlayerMove : MonoBehaviour
@@ -25,14 +29,19 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D myRigidbody;
     private Vector3 change;
     private Animator animator;
+
     public GameObject projectile;
     public Transform shotPoint;
+    public float projSpeed;
+    private Rigidbody2D projBody;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
+        projBody = projectile.GetComponent<Rigidbody2D>();
         currentDirection = PlayerDirection.front;
     }
 
@@ -59,11 +68,29 @@ public class PlayerMove : MonoBehaviour
     private void changeDirection() {
         
         if (change.x == -1) {
-            currentDirection = PlayerDirection.left;
+            if (change.y == -1) {
+                currentDirection = PlayerDirection.lFront;
+            }
+            else if (change.y == 1) {
+                currentDirection = PlayerDirection.lBack;
+            }
+            else {
+                currentDirection = PlayerDirection.left;
+            }
         }
+        
         else if (change.x == 1) {
-            currentDirection = PlayerDirection.right;
+            if (change.y == -1) {
+                currentDirection = PlayerDirection.rFront;
+            }
+            else if (change.y == 1) {
+                currentDirection = PlayerDirection.rBack;
+            }
+            else {
+                currentDirection = PlayerDirection.right;
+            }
         }
+
         else if (change.y == -1) {
             currentDirection = PlayerDirection.front;
         }
@@ -76,7 +103,7 @@ public class PlayerMove : MonoBehaviour
     {
         animator.SetBool("attacking", true);
         currentState = PlayerState.attack;
-        shootProjectile();
+        StartCoroutine(makeProjectile());
 
         yield return null;
 
@@ -87,7 +114,7 @@ public class PlayerMove : MonoBehaviour
         currentState = PlayerState.walk;
     }
 
-    private void shootProjectile() {
+    private IEnumerator makeProjectile() {
         if (currentDirection == PlayerDirection.front) {
             Instantiate(projectile, shotPoint.position, Quaternion.Euler(0, 0, -135));
         }
@@ -100,6 +127,22 @@ public class PlayerMove : MonoBehaviour
         else if (currentDirection == PlayerDirection.left) {
             Instantiate(projectile, shotPoint.position, Quaternion.Euler(0, 0, 135));
         }
+        else if (currentDirection == PlayerDirection.rFront) {
+            Instantiate(projectile, shotPoint.position, Quaternion.Euler(0, 0, -90));
+        }
+        else if (currentDirection == PlayerDirection.lFront) {
+            Instantiate(projectile, shotPoint.position, Quaternion.Euler(0, 0, 180));
+        }
+        else if (currentDirection == PlayerDirection.rBack) {
+            Instantiate(projectile, shotPoint.position, Quaternion.Euler(0, 0, 0));
+        }
+        else if (currentDirection == PlayerDirection.lBack) {
+            Instantiate(projectile, shotPoint.position, Quaternion.Euler(0, 0, 90));
+        }
+
+        MoveProjectile();
+
+        yield return new WaitForSeconds(.5f);
     }
 
     void UpdateAnimationAndMove() {
@@ -115,7 +158,15 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    void MoveCharacter()
+    private void MoveProjectile() {
+        Vector3 changeP = new Vector3(5, 5, 0);
+        
+        projBody.MovePosition(
+            shotPoint.position + changeP * projSpeed
+        );
+    }
+
+    private void MoveCharacter()
     {
         myRigidbody.MovePosition(
             transform.position + change * speed * Time.deltaTime
