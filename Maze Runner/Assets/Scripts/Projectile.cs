@@ -29,7 +29,7 @@ public class Projectile : MonoBehaviour
     private void Update()
     {
         myRigidBody.MovePosition(
-            transform.position + change * projSpeed * Time.deltaTime
+            transform.position + change.normalized * projSpeed * Time.deltaTime
         );
     }
 
