@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SwordProjectile
   - Border
+  - Mob
   layers:
   - Default
   - TransparentFX
@@ -48,6 +49,9 @@ TagManager:
     locked: 0
   - name: Projectiles
     uniqueID: 2920714769
+    locked: 0
+  - name: Mob
+    uniqueID: 1800037351
     locked: 0
   - name: Player
     uniqueID: 1225275809
