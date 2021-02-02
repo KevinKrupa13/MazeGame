@@ -236,7 +236,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &251076593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,13 +497,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceb11bf42d6194d4b855df142ba0659d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
-  speed: 20
-  player: {fileID: 1118658338}
-  change: {x: 0, y: 0, z: 0}
-  playerVector: {x: 0, y: 0, z: 0}
-  myRigidbody: {fileID: 0}
-  animator: {fileID: 0}
 --- !u!1 &778921192
 GameObject:
   m_ObjectHideFlags: 0
